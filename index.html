@@ -1,97 +1,852 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DQ10 ハウジング100選・選抜率診断｜本格版</title>
-<style>
-:root{--bg:#0e0f11;--panel:#17181c;--panel2:#202228;--text:#f4f1ea;--muted:#9699a2;--line:#33363e;--gold:#d7c38e}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#303138 0,#0e0f11 50%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",sans-serif}.wrap{max-width:780px;margin:auto;padding:22px 17px 60px}.hero{text-align:center;padding:28px 8px 22px}.eyebrow{font-size:11px;letter-spacing:.2em;color:var(--gold)}h1{font:400 clamp(30px,7vw,52px)/1.1 Georgia,serif;letter-spacing:.03em;margin:15px 0}.lead{color:#b8bac0;line-height:1.8;font-size:14px}.card{background:#17181ceF;border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:15px;box-shadow:0 20px 60px #0006}.progress{height:3px;background:#2e3036;border-radius:99px;overflow:hidden;margin-bottom:24px}.bar{height:100%;background:var(--gold);width:0;transition:.25s}.qmeta{display:flex;justify-content:space-between;color:var(--gold);font-size:11px;letter-spacing:.1em}.category{color:#747780}h2{font-size:21px;line-height:1.6;font-weight:500;margin:11px 0 20px}.choices{display:grid;gap:9px}.choice{width:100%;text-align:left;border:1px solid #3a3d45;background:var(--panel2);color:var(--text);border-radius:12px;padding:15px 15px;font:inherit;cursor:pointer;transition:.15s}.choice:hover{border-color:#747780;transform:translateY(-1px)}.choice b{display:block;font-size:14px;font-weight:500}.choice small{display:block;color:#858891;margin-top:5px}.result{text-align:center}.label{font-size:11px;letter-spacing:.2em;color:var(--gold)}.percent{font:400 clamp(70px,18vw,110px)/1 Georgia,serif;margin:12px 0 3px}.percent span{font-size:.35em}.rank{font-size:17px;margin-bottom:22px}.meter{height:8px;max-width:520px;margin:auto;background:#2c2e34;border-radius:99px;overflow:hidden}.meter i{display:block;height:100%;width:0;background:var(--gold);transition:1s}.summary{margin:26px auto 0;max-width:600px;text-align:left;border-top:1px solid var(--line);padding-top:22px}.score{display:grid;grid-template-columns:85px 1fr 42px;gap:9px;align-items:center;margin:11px 0;font-size:12px}.track{height:7px;background:#303239;border-radius:99px;overflow:hidden}.track i{display:block;height:100%;background:#aeb0b7}.insight{margin-top:23px;padding:18px;border:1px solid var(--line);border-radius:12px;text-align:left;line-height:1.75;font-size:13px}.insight strong{color:var(--gold);font-weight:500}.advice{margin-top:14px;color:#c8c9ce}.tag{display:inline-block;border:1px solid #4a4c54;border-radius:99px;padding:5px 10px;margin:3px;font-size:11px;color:#c9cad0}.actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:22px}.actions button{border-radius:99px;padding:11px 18px;font:inherit;cursor:pointer}.primary{background:var(--gold);border:1px solid var(--gold);color:#171717}.secondary{background:transparent;border:1px solid #555861;color:var(--text)}.note{font-size:10px;color:#6e727b;line-height:1.7;margin-top:22px}.hidden{display:none}footer{text-align:center;color:#5f636c;font-size:10px;margin-top:25px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DQX 専門家・ガチ勢向けマスター診断（マニアック版）</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f7f5ef;
+            --card-bg: #ffffff;
+            --text-main: #2b2b2b;
+            --text-sub: #7a7a7a;
+            --border-main: #2b2b2b;
+            --bruna-red: #d93829;
+            --bruna-blue: #266093;
+            --bruna-yellow: #f2b93b;
+            --bruna-green: #438b43;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+            letter-spacing: 0.05em;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 3px solid var(--border-main);
+            border-radius: 12px;
+            padding: 24px 20px;
+            box-shadow: 4px 4px 0px var(--border-main);
+            margin-bottom: 20px;
+        }
+
+        .screen {
+            display: none;
+        }
+        .screen.active {
+            display: block;
+        }
+
+        .hero-title {
+            font-size: 1.35rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .hero-subtitle {
+            font-size: 0.8rem;
+            text-align: center;
+            color: var(--text-sub);
+            margin-bottom: 18px;
+        }
+
+        .mode-select-label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .mode-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .btn-mode {
+            background: #fff;
+            border: 2px solid var(--border-main);
+            border-radius: 8px;
+            padding: 10px 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 2px 2px 0px var(--border-main);
+        }
+
+        .btn-mode:hover {
+            transform: translateY(-2px);
+            box-shadow: 3px 3px 0px var(--border-main);
+            background: #fdfbf7;
+        }
+
+        .btn-mode b {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .btn-mode small {
+            color: var(--text-sub);
+            font-size: 0.73rem;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .progress-container {
+            height: 8px;
+            background: #e0e0e0;
+            border: 2px solid var(--border-main);
+            border-radius: 99px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--bruna-red);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .q-title {
+            font-size: 0.98rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .choice-btn {
+            background: #fff;
+            border: 2px solid var(--border-main);
+            border-radius: 8px;
+            padding: 12px 14px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.1s ease;
+            box-shadow: 2px 2px 0px var(--border-main);
+        }
+
+        .choice-btn:hover {
+            background: #fdfbf7;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            border: 2px solid var(--border-main);
+            border-radius: 8px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        .result-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--bruna-red);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .result-percent {
+            font-size: 3rem;
+            font-weight: 900;
+            text-align: center;
+            margin: 8px 0;
+            color: var(--text-main);
+        }
+
+        .result-percent span {
+            font-size: 1.3rem;
+        }
+
+        .result-rank {
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: bold;
+            background: #f4efe6;
+            border: 2px solid var(--border-main);
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .score-box {
+            margin-bottom: 16px;
+        }
+
+        .score-row {
+            display: grid;
+            grid-template-columns: 90px 1fr 40px;
+            gap: 8px;
+            align-items: center;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .score-track {
+            height: 7px;
+            background: #eee;
+            border: 1px solid var(--border-main);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: var(--bruna-blue);
+        }
+
+        .insight-box {
+            background: #fffdf5;
+            border: 2px dashed var(--bruna-yellow);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 16px;
+            font-size: 0.82rem;
+        }
+
+        .insight-box h4 {
+            color: #b58106;
+            margin-bottom: 6px;
+            font-size: 0.88rem;
+        }
+
+        .action-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--bruna-red);
+            color: #fff;
+            border: 2px solid var(--border-main);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px var(--border-main);
+            transition: transform 0.1s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+        }
+
+        .footer-note {
+            font-size: 0.7rem;
+            color: var(--text-sub);
+            text-align: center;
+            margin-top: 14px;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 <body>
-<div class="wrap">
-<section class="hero">
-<div class="eyebrow">DRAGON QUEST X / HOUSING</div>
-<h1>100選・選抜率診断</h1>
-<p class="lead">あなたのハウジングは、一次選考を突破できる作品なのか。<br>18問・6つの観点から「作品としての選抜力」を診断します。</p>
-</section>
 
-<main id="quiz" class="card">
-<div class="progress"><div id="bar" class="bar"></div></div>
-<div class="qmeta"><span id="qnum"></span><span id="cat" class="category"></span></div>
-<h2 id="question"></h2><div id="choices" class="choices"></div>
-</main>
+<div class="container">
 
-<main id="result" class="card result hidden">
-<div class="label">YOUR 100-SELECTION POWER</div>
-<div id="percent" class="percent"></div>
-<div id="rank" class="rank"></div>
-<div class="meter"><i id="meter"></i></div>
-<div id="summary" class="summary"></div>
-<div id="insight" class="insight"></div>
-<div class="actions"><button class="primary" onclick="copyResult()">結果をコピー</button><button class="secondary" onclick="restart()">もう一度診断</button></div>
-<div class="note">※「選抜率」は実際の当選確率ではなく、公式コンテストで示された評価観点を参考に設計した試作品の独自指標です。第5回では運営チームの一次選考を突破した100作品が投票に進み、「素晴らしい家」「写真・PR文章」が主な審査基準とされました。</div>
-</main>
-<footer>Prototype / DQ10 Housing 100 Selection Diagnostic</footer>
+    <!-- START SCREEN -->
+    <div id="screen-start" class="screen active">
+        <div class="card">
+            <h1 class="hero-title">🐰 DQX ガチ勢マスター診断</h1>
+            <p class="hero-subtitle">妥協なしの専門テクニック・審査基準を徹底検証<br>（全ジャンル10問・完全ランダムシャッフル版）</p>
+            
+            <div class="mode-select-label">▼ 挑戦したい専門ジャンルを選んでね</div>
+            <div class="mode-buttons">
+                <button class="btn-mode" onclick="startQuiz('hiroba')">
+                    <b>📸 広場・写真コンテスト（演出・サムネ解像度編）</b>
+                    <small>縮小クリップ対策・ライティング・ストーリー性</small>
+                </button>
+                <button class="btn-mode" onclick="startQuiz('micolle')">
+                    <b>👗 マイコレ・ドレア（種族干渉・配色黄金比編）</b>
+                    <small>骨格補正・テクスチャ・ツヤめきペレット配分</small>
+                </button>
+                <button class="btn-mode" onclick="startQuiz('housing')">
+                    <b>🏠 ハウコン（座標ずらし・カメラ抜け制御編）</b>
+                    <small>当たり判定・クリップ回避・立体イリュージョン</small>
+                </button>
+                <button class="btn-mode" onclick="startQuiz('ascon')">
+                    <b>👑 アスコン（微小フレーム・陰影制御編）</b>
+                    <small>しぐさキャンセル・環境光・オリジナリティ</small>
+                </button>
+                <button class="btn-mode" onclick="startQuiz('fishing')">
+                    <b>🎣 フィッシング（暴れモーション・テンション管理編）</b>
+                    <small>くいつき度消費予測・魚影選別・周回最適化</small>
+                </button>
+                <button class="btn-mode" onclick="startQuiz('minigame')">
+                    <b>⭐ トラシュカ（ベクトル予測・判定ボックス編）</b>
+                    <small>着水ラグ・浮き輪特性・被弾回避ルート</small>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="screen-quiz" class="screen">
+        <div class="card">
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <div class="quiz-header">
+                <span id="q-num">Q1 / 10</span>
+                <span id="q-cat" style="color: var(--bruna-blue);">カテゴリ</span>
+            </div>
+            <h2 id="q-title" class="q-title">質問文がここに入ります</h2>
+            <div id="choices-area" class="choices"></div>
+            <button class="btn-secondary" onclick="prevQuestion()" id="btn-prev">最初に戻る</button>
+        </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="screen-result" class="screen">
+        <div class="card" id="result-card">
+            <div class="result-label" id="res-mode-label">DIAGNOSIS RESULT</div>
+            <div class="result-percent" id="res-percent">82<span>%</span></div>
+            <div class="result-rank" id="res-rank">S ｜ 熟練のガチ勢・トップランカーレベル！</div>
+
+            <div class="score-box" id="score-breakdown"></div>
+
+            <div class="insight-box">
+                <h4>💡 プロの赤ペン先生＆マニアック解説</h4>
+                <p id="res-advice">ここにアドバイスが入ります。</p>
+            </div>
+        </div>
+
+        <div class="action-group">
+            <button class="btn-primary" onclick="downloadResultImage()">📷 結果を画像で保存・シェアする</button>
+            <button class="btn-secondary" onclick="restart()">ジャンル選定に戻る</button>
+        </div>
+        <div class="footer-note">※DQXの仕様やコンテストの傾向を極限まで深掘りした学習用シミュレーターです。</div>
+    </div>
+
 </div>
 
 <script>
-const qs=[
-["テーマ","この家を一言で表すなら、明確なテーマがありますか？",[["作品名まで含めて明確",3],["テーマはかなり明確",2],["なんとなく決めている",1],["特にない",0]],"theme"],
-["構成","最初に見た人の視線を誘導する「主役」がありますか？",[["主役を意図的に作っている",3],["自然と目立つ場所がある",2],["全体を見てほしい",1],["特に考えていない",0]],"composition"],
-["完成度","家具・庭具は「足す」だけでなく「引く」ことも意識していますか？",[["不要なものは積極的に削る",3],["多少は整理する",2],["基本的に足していく",1],["置けるものは全部置きたい",0]],"completion"],
-["独創性","他の有名ハウジングを参考にした場合、自分の作品にどう落とし込みますか？",[["発想だけ借りて別の作品にする",3],["かなり自分流に変える",2],["似た雰囲気を目指す",1],["ほぼそのまま再現する",0]],"originality"],
-["写真","応募写真を撮るとしたら、どのくらい試しますか？",[["構図・距離・光を変えて大量に撮る",3],["何パターンか撮って選ぶ",2],["気に入った1枚を使う",1],["普段の記録写真を使う",0]],"photo"],
-["統一性","色・素材・家具のテイストに統一感がありますか？",[["全体のルールを決めている",3],["かなり統一されている",2],["部分ごとに違う",1],["好きなものを自由に置く",0]],"completion"],
-["物語","その家に入った人が「何かの物語」を想像できると思いますか？",[["明確な物語がある",3],["世界観から想像できる",2],["雰囲気はある",1],["特に考えていない",0]],"theme"],
-["構成","余白を「何もない空間」ではなく、作品の一部として使っていますか？",[["かなり意識している",3],["必要な場所には作る",2],["家具を置くことを優先",1],["余白はもったいない",0]],"composition"],
-["独創性","自分の家を見た人に、一番言ってほしい言葉は？",[["「こんなの初めて見た」",3],["「アイデアがすごい」",3],["「完成度が高い」",2],["「自分も作ってみたい」",2]],"originality"],
-["写真","カメラアングルについて、あなたは？",[["家を一番美しく見せる位置を探す",3],["普段からかなり調整する",2],["見やすければOK",1],["ほぼ意識しない",0]],"photo"],
-["完成度","近くで見たときの細部まで作り込んでいますか？",[["細部こそ作品の価値だと思う",3],["主要部分はかなり作る",2],["遠目で綺麗なら十分",1],["細部はあまり気にしない",0]],"completion"],
-["テーマ","家具ひとつひとつに「なぜそこに置いたか」を説明できますか？",[["ほとんど説明できる",3],["主要家具なら説明できる",2],["見た目が良いから置くことも多い",1],["特に意味はない",0]],"theme"],
-["構成","画面の中に「主役・脇役・背景」の階層がありますか？",[["明確に設計している",3],["ある程度意識している",2],["結果的にそうなっている",1],["全部同じくらい見せたい",0]],"composition"],
-["写真","実物の家と応募写真、どちらをより重要だと思いますか？",[["応募写真も作品そのもの",3],["写真はかなり重要",2],["実物の方が重要",1],["写真は記録にすぎない",0]],"photo"],
-["独創性","「流行しているハウジング」を見ると？",[["流行とは違う方向を試したくなる",3],["参考にしつつ自分の方向へ",2],["良いものは積極的に取り入れる",1],["流行をできるだけ取り入れる",0]],"originality"],
-["完成度","完成後に一度、家具を減らして見直しますか？",[["必ず引き算する",3],["気になるところは減らす",2],["ほぼしない",1],["減らすより追加する",0]],"completion"],
-["テーマ","タイトル・キャッチフレーズ・PR文はどう作りますか？",[["写真と一体の作品として考える",3],["魅力が伝わるように工夫する",2],["簡単な説明を書く",1],["ほぼ考えない",0]],"photo"],
-["総合","コンテスト提出前、最後に一番確認したいのは？",[["一枚の写真として強いか",3],["家全体の完成度",3],["他にない魅力があるか",3],["自分が好きかどうか",2]],"overall"]
-];
+// ==========================================
+// ガチ勢向け専門データ（各10問）
+// ==========================================
+const QUESTION_DATA = {
+    hiroba: {
+        name: "広場・写真コンテスト（演出・サムネ解像度編）",
+        questions: [
+            { cat: "サムネ圧縮", text: "「みんなのお知らせ広場」の一覧（極小サムネイル状態）で、審査員や他人のスクロールの手を止めさせるために最も不可欠な要素は？", choices: [
+                ["キャラクターが着ている最新装備のブランドアピール", 1],
+                ["主役の輪郭が周囲の背景に溶け込まない『明度差・コントラストの確保』", 3],
+                ["写真全体にエフェクトを盛って華やかにすること", 0]
+            ]},
+            { cat: "視線誘導", text: "被写界深度（ピント）と視線誘導のテクニックとして、画面の「3分割法」や交点に配置する際の注意点は？", choices: [
+                ["画面の中央にキャラクターをドンと置くのが一番安定する", 1],
+                ["画面いっぱいに情報を敷き詰めて密度を上げる", 0],
+                ["視線の先（キャラクターが向いている方向）に十分な『余白』をあけ、窮屈さを消す", 3]
+            ]},
+            { cat: "エフェクト", text: "カメラ機能の「エフェクト（集中線やキラキラなど）」を使う際、プロが避けるべき致命的な罠は？", choices: [
+                ["エフェクトの主張が強すぎて、肝心のキャラクターの表情や輪郭がつぶれること", 3],
+                ["カラーフィルターと同時に使えないこと", 0],
+                ["エフェクトを全く使わずに地味な絵面になってしまうこと", 1]
+            ]},
+            { cat: "タイトル", text: "写真のタイトル・一言コメントで、上位入賞常連者がよく使う心理的テクニックは？", choices: [
+                ["「上手に撮れました！」など個人的な感想をダイレクトに書く", 0],
+                ["写真単体ではあえて語らず、タイトルで『一筋のストーリーや余白』を補完する", 3],
+                ["撮影した場所の名前や、使用したスタジオのタグを正確に記載する", 1]
+            ]},
+            { cat: "環境光", text: "屋外フィールドで撮影する際、キャラクターの顔に不自然な影（死角の黒ずみ）を作らないための技術は？", choices: [
+                ["太陽の高度や方位（朝・昼・夕方）を計算し、カメラアングルと光源の角度を一致させる", 3],
+                ["とりあえず「おきあがる」等のしぐさで強制的に光源をリセットする", 1],
+                ["夜間にしてランタンや照明家具の光だけに頼る", 0]
+            ]},
+            { cat: "背景分離", text: "背景がごちゃついた場所で主役を際立たせるため、DQXのカメラ仕様において有効な手段は？", choices: [
+                ["キャラクターの服の色を背景と同系色にして馴染ませる", 0],
+                ["スタンプやフレームで周囲を完全に隠す", 1],
+                ["カメラ距離を限界まで引き、ズーム（焦点距離）を調整して背景をボケさせる（※仕様の限界を利用）", 3]
+            ]},
+            { cat: "構図意図", text: "「あえて画面の端に小さくキャラクターを配置する（日の丸構図の崩し）」が評価される理由は？", choices: [
+                ["キャラクターの顔のアップよりも体全体が見えるから", 1],
+                ["広大な世界観や孤独感、ドラマチックな『空気感』を演出できるから", 3],
+                ["単に中心を外すことで素人っぽさを演出できるから", 0]
+            ]},
+            { cat: "動機同期", text: "グループ・フレンド写真を撮影する際、複数人の「目線やモーションの同期」で最も気をつけるべき点は？", choices: [
+                ["自動ループするしぐさの「コマズレ」を許さず、完全に秒単位のタイミングを合わせる", 3],
+                ["全員がカメラ目線で笑顔をキメていること", 1],
+                ["全員が同じ服を着てペアルック感を出すこと", 0]
+            ]},
+            { cat: "トレンド", text: "広場のコンテストで「過去に入賞した作品の類似表現」が選ばれにくくなる原因は？", choices: [
+                ["運営のシステムが自動で類似画像を弾くようになっているから", 0],
+                ["トレンドに合わせた方がむしろ入賞率は上がるから", 1],
+                ["審査員や投票者に『既視感（マンネリ）』を与えてしまい、新規性・独創性が評価されないから", 3]
+            ]},
+            { cat: "最終確認", text: "投稿ボタンを押す直前、プロの写真家やガチ勢が必ず行う最終チェックとは？", choices: [
+                ["フレンドチャットに画像を貼り付けて「いいね」と言われるか試す", 1],
+                ["スマホやPCの縮小ウインドウに縮めて、スマホ勢の視認性テストを行う", 3],
+                ["特に見直さず、直感の勢いままに即座に投稿する", 0]
+            ]}
+        ]
+    },
+    micolle: {
+        name: "マイコレ・ドレア（種族干渉・配色黄金比編）",
+        questions: [
+            { cat: "配色比率", text: "ドレアのカラーリングにおける「メイン2色：サブ1色：アクセント」の視覚的黄金比率は？", choices: [
+                ["すべての部位を均等に4色ずつ塗り分ける", 0],
+                ["主役（70%）：ベース（25%）：アクセント（5%）のトーンバランスを守る", 3],
+                ["好きな色を重ねられるだけ塗り重ねる", 0]
+            ]},
+            { cat: "種族干渉", text: "オーガ男やプクリポなど、特殊な骨格を持つ種族でドレアを組む際、最も警戒すべき「テクスチャの破綻」とは？", choices: [
+                ["特定の体型によって装備の合わせ目（ウェストや肩甲骨）が引き伸ばされ、模様が歪む現象", 3],
+                ["カラーリングパレットの色が種族によって勝手に変化してしまう現象", 1],
+                ["武器を構えたときに装備のグラフィックが消えてしまう現象", 0]
+            ]},
+            { cat: "素材質感", text: "「ツヤめきペレット」や「超便利ツール織物」を使った素材感のコントラストで、ダサく見えてしまう悪手は？", choices: [
+                ["ツヤを一切使わずにマットなまま仕上げること", 0],
+                ["布と金属の質感を完全に同じ色で統一してしまうこと", 1],
+                ["すべてのパーツに同じ強さのツヤを入れ、全体がテカテカのプラスチック感になること", 3]
+            ]},
+            { cat: "シルエット", text: "「Aライン」「Iライン」「Yライン」などのシルエット理論をドレアに応用する際の効果は？", choices: [
+                ["キャラクターの頭身や足の長さを視覚的に補正し、スタイリッシュに見せる", 3],
+                ["どの装備を着ても同じ見た目になるように固定する", 1],
+                ["キャラクターの当たり判定を小さくして戦闘を有利にする", 0]
+            ]},
+            { cat: "パーツ流用", text: "上下セット装備を使わず、あえて別々のセットのパーツを組み合わせて違和感を消すための技術は？", choices: [
+                ["同じ職人の装備であれば、どれを組み合わせても自然に馴染む", 1],
+                ["繋ぎ目（ベルトや腰布など）のデザインを別の装飾で自然に隠すか、色を完全同色にする", 3],
+                ["色の系統さえ合っていれば繋ぎ目は気にしなくてよい", 0]
+            ]},
+            { cat: "武器盾調和", text: "戦闘時に表示される「武器や盾」をドレアの一部として完全に組み込む際のデザインアプローチは？", choices: [
+                ["武器や盾は非表示設定にするのが一番無難である", 1],
+                ["常に一番攻撃力が高い最新の武器を装備させておく", 0],
+                ["抜刀時のポーズで武器のカラーが全体のアクセントカラーとバッティングしないようにする", 3]
+            ]},
+            { cat: "色相環", text: "色選びに迷った際、色相環における「補色（反対色）」をアクセントとして使うときの鉄則は？", choices: [
+                ["メインカラーと補色を50%ずつの割合で真っ二つに配置する", 0],
+                ["補色同士を隣り合わせに配置して強烈なインパクトを出す", 1],
+                ["面積を全体の数パーセント（靴やリボンなど）に留め、視覚的な強い引き締め効果を狙う", 3]
+            ]},
+            { cat: "足元処理", text: "「靴（足装備）」と「足下露出（素足やタイツ等）」の境界線で、プロが必ずこだわる微調整とは？", choices: [
+                ["足首のくびれ部分の色と、靴の履き口のテクスチャの重なりを緻密に計算する", 3],
+                ["ブーツ系の装備を選んでおけば足元は基本的にすべて隠れるので安心", 1],
+                ["靴の色はメインカラーと完全に同じ色にしておく", 0]
+            ]},
+            { cat: "引き算美", text: "装飾（羽・マント・過剰な装飾品）を盛り込みすぎたドレアから、洗練された「引き算」を行う基準は？", choices: [
+                ["シンプルすぎる地味な見た目になったら、さらに課金装備を足す", 0],
+                ["自分が気に入っているパーツならどれだけ多くても残す", 0],
+                ["全体の焦点がどこにあるか分からなくなっている場合、一番主張の強い装飾を1つ外す", 3]
+            ]},
+            { cat: "コンセプト", text: "「架空の職種・部族・ストーリー」といった緻密な設定をドレアの設計図に組み込む最大のメリットは？", choices: [
+                ["他の人と絶対に被らない奇抜な見た目を作ることができる", 0],
+                ["コンテストの応募アンケートで文字数をたくさん埋めることができる", 0],
+                ["色選びやパーツ選定に一貫性が生まれ、見る人に強烈な説得力と世界観を伝えることができる", 3]
+            ]}
+        ]
+    },
+    housing: {
+        name: "ハウコン（座標ずらし・カメラ抜け制御編）",
+        questions: [
+            { cat: "座標ずらし", text: "「座標ずらし（家具のめり込み・浮かせ）」を使った立体造形において、最も深刻なバグや不具合を防ぐための必須知識は？", choices: [
+                ["家具の総配置数が上限を超えて家キットが消滅してしまう現象の防止", 1],
+                ["家具の当たり判定が残ったまま重なることで、キャラクターが挟まったり床下に落下する事故の防止", 3],
+                ["家具の色合いが重なった部分だけ変色してしまう現象の防止", 0]
+            ]},
+            { cat: "カメラ抜け", text: "ハウジング内の狭い空間や小部屋で、スクショ撮影時にカメラが壁や天井を貫通して外に出てしまう現象（クリップアウト）の対策は？", choices: [
+                ["狭い空間を作るのを諦めて、だだっ広いワンルームにする", 0],
+                ["撮影時は絶対にカメラを動かさず、初期アングルのまま固定する", 1],
+                ["あえて天井や壁の判定がない家具や、透明家具を透過壁として配置する", 3]
+            ]},
+            { cat: "視線誘導", text: "プレイヤーが庭や部屋に足を踏み入れた瞬間、最初に視線を強制的に一点に集めるための空間設計（アイストップ）の技術は？", choices: [
+                ["部屋全体を同じ明るさのランプで均等に照らす", 0],
+                ["入口からの動線上に強い明かり（照明）と、対比となる暗い空間・壁を配置する", 3],
+                ["入り口の真ん中に大きなモンスター人形を置く", 0]
+            ]},
+            { cat: "引き算空間", text: "「家具・庭具配置数上限」の罠に陥りがちなビギナーが犯しがちな、情報過多（ごちゃつき）を解消する手法は？", choices: [
+                ["あえて何も置かない「贅沢な余白（マイナスの空間）」を作り、主役の家具を引き立てる", 3],
+                ["配置上限を増やすために別のサイズの家キットに引っ越す", 0],
+                ["入りきらない家具はタンスや収納にしまい込んで諦める", 1]
+            ]},
+            { cat: "照明演出", text: "ハウジング内の光源（ランプ・窓・炎など）の数と、影の描画負荷（または消滅バグ）に関する正確な理解は？", choices: [
+                ["同時に描画できる影の数には上限があるため、メインの光源以外は影をオフにするか減らす", 3],
+                ["部屋が暗ければ暗いほど、たくさんランプを並べれば綺麗になる", 1],
+                ["照明の数が多いほど、写真写りが自動で良くなる", 0]
+            ]},
+            { cat: "裏表構築", text: "「壁かけ家具の裏表反転」や「階段・床の重ね技」など、カタログスペック通りの使い方をしない建築の極意は？", choices: [
+                ["公式が用意した家具の組み合わせレシピ通りに正確に並べる", 1],
+                ["家具の向きをランダムに変えて面白い形を作る", 0],
+                ["本来の用途とは全く異なるパーツの「テクスチャや断面」を新しい建材として再定義する", 3]
+            ]},
+            { cat: "動線実用", text: "「撮影用の一発芸スタジオ」ではなく、「実際に生活・移動できるリアリティのある家」を両立させるための動線設計は？", choices: [
+                ["家の中の移動はすべてルーラストーンや庭石で行う前提にする", 1],
+                ["カメラワークの美しさと、キャラクターがスムーズに歩ける通路の幅（最低1〜2マス）を確保する", 3],
+                ["通り抜けできない壁一面のバリケードをあちこちに作る", 0]
+            ]},
+            { cat: "庭具遠近", text: "庭（マイタウン・土地）のコーディネートで、狭い敷地を広く・奥行きがあるように見せるための遠近法テクニックは？", choices: [
+                ["好きな庭具を家の周りに隙間なくびっしり埋め尽くす", 0],
+                ["敷地のフェンス際に沿って、同じ大きさの木を等間隔で並べる", 1],
+                ["手前に大きい木や濃い色の庭具を置き、奥に向かってサイズが小さい・明るい色の庭具を配置する", 3]
+            ]},
+            { cat: "写真アングル", text: "ハウコンの応募写真で、床の目地（タイルの線）や壁の切れ目が不自然に映り込まないようにするアングルの極意は？", choices: [
+                ["真上から真下に向けて部屋全体を見下ろす俯瞰アングルにする", 1],
+                ["カメラの高さ（アイレベル）を徹底的に低くし、人の目で見たような臨場感を演出する", 3],
+                ["キャラクターを画面の中心に座らせて自動で撮影する", 0]
+            ]},
+            { cat: "コンセプト", text: "ハウジングコンテストで最高評価（100選など）を勝ち取る作品に共通する「圧倒的な熱量」の源泉とは？", choices: [
+                ["細部（見えない床下やタンスの裏まで）に妥協のないストーリーの痕跡が残されている", 3],
+                ["誰よりも早く最新の家具をたくさん課金して並べている", 1],
+                ["誰も真似できないような奇抜で派手な色使いをしている", 0]
+            ]}
+        ]
+    },
+    ascon: {
+        name: "アスコン（微小フレーム・陰影制御編）",
+        questions: [
+            { cat: "しぐさ判定", text: "アスコン入賞常連者が「しぐさ」のワンシーンを切り取る際に行う、極限のタイミング合わせ（しぐさキャンセル等）とは？", choices: [
+                ["しぐさが終わった後の直立不動のポーズを狙う", 1],
+                ["自動でループする可愛い動きの最中に連打して撮影する", 0],
+                ["しぐさのモーションが最も美しく停止する『1フレームのピーク』を狙ってシャッターを押す", 3]
+            ]},
+            { cat: "環境光制御", text: "キャラクターの表情や瞳に美しいキャッチライト（光の反射）を入れ、死んだ目を回避するための撮影テクニックは？", choices: [
+                ["どんな暗い場所でもカメラのフラッシュ機能を使う", 0],
+                ["カメラの向きと光源（ランプや窓）の相対位置を計算し、キャラクターの顔の向きを微調整する", 3],
+                ["常に明るい昼間のジュレットの浜辺だけで撮影する", 1]
+            ]},
+            { cat: "被写界深度", text: "背景の建造物を適度にぼかし、キャラクターを浮き上がらせる（一眼レフのような立体感）ためのカメラ操作のコツは？", choices: [
+                ["ゲーム内のカメラ設定で「被写界深度」を最大値に固定する", 0],
+                ["キャラクターから遠く離れて、思い切りズームインして撮影する", 1],
+                ["キャラクターとカメラの距離を近づけ、背景との物理的距離を大きく開ける", 3]
+            ]},
+            { cat: "世界観構築", text: "「ただ可愛い・カッコいいだけのキャラクター」から脱却し、アスコンで上位に食い込むための「ドラマ性」の出し方は？", choices: [
+                ["写真の端々に「物語の背景や過去・未来」を想起させる小道具や影の演出を忍ばせる", 3],
+                ["派手なエフェクトと全種類のスタンプを画面に敷き詰める", 0],
+                ["有名アニメや映画のワンシーンをそのままそっくり再現する", 1]
+            ]},
+            { cat: "ローアングル", text: "キャラクターをダイナミックかつ凛々しく（あるいは可愛く）見せるための「ローアングル（あおり）」撮影の弊害と対策は？", choices: [
+                ["足元が大きく見えすぎてバランスが崩れるので絶対に避けるべき", 0],
+                ["画面全体が暗くなってしまうため、必ず夜間に撮影する", 1],
+                ["下からのぞき込むことで背景の粗や天井の切れ目が映り込むため、背景のクオリティを徹底管理する", 3]
+            ]},
+            { cat: "カラー調和", text: "キャラクターのドレアの色味と、背景（スタジオやフィールド）の環境色の「相性」で最悪な組み合わせは？", choices: [
+                ["キャラクターのメインカラーと背景の壁の色が完全に同化し、輪郭が消滅すること", 3],
+                ["キャラクターの色が背景に対して完全に反対色（補色）になっていること", 1],
+                ["キャラクターの色が白一色で、背景が黒一色であること", 0]
+            ]},
+            { cat: "PR文連動", text: "アスコンの写真に添える「キャプション（PR文・タイトル）」が審査における評価を爆上げする決定的な要因は？", choices: [
+                ["「入賞できるように頑張りました！いいねお願いします！」と熱意を書く", 0],
+                ["写真だけでは伝わらない隠されたテーマや心情を、文学的かつ端的な言葉で補完する", 3],
+                ["使用している装備やスタジオの名前を正確に漏らさず記載する", 1]
+            ]},
+            { cat: "試行錯誤数", text: "トップランカーが「納得の一枚」を撮るために費やす、撮影枚数とリテイクの平均的な執念は？", choices: [
+                ["一発撮りで奇跡的に綺麗に撮れたものをそのまま応募する", 0],
+                ["その場で十数枚ほど撮影して、一番まともなものを選ぶ", 1],
+                ["何日にもわたり数百〜数千枚を撮影し、1ドットのズミや表情の瞬きを厳選する", 3]
+            ]},
+            { cat: "トレンド逆張り", text: "「現在のコンテストの流行（トレンド）」をあえて外して、独自の尖った作風で勝負する際のギャンブル性と勝率は？", choices: [
+                ["流行っているスタイルを真似した方がむしろ安全で入賞しやすい", 1],
+                ["トレンドを無視した作品はシステム的に審査員の目に留まりにくい", 0],
+                ["審査員の記憶に強烈な爪痕を残せる一方、好みが分かれるためハイリスク・ハイリターンになる", 3]
+            ]},
+            { cat: "総合美学", text: "アスコンという舞台において、キャラクターの「ビジュアルの美しさ」と同等以上に評価される本質的な価値とは？", choices: [
+                ["課金アイテムをどれだけたくさん身につけているかの豪華さ", 0],
+                ["どれだけ多くのフレンドに事前の組織票をお願いできるか", 0],
+                ["アストルティアの世界に本当にその生命が生きているかのような「圧倒的なリアリティと空気感」", 3]
+            ]}
+        ]
+    },
+    fishing: {
+        name: "フィッシング（暴れモーション・テンション管理編）",
+        questions: [
+            { cat: "大物予測", text: "釣りの最中、大物や「ヌシクラス」がヒットした瞬間、水音や魚の引き（アイコンの挙動）から瞬時に見極めるべき最初の動作は？", choices: [
+                ["すぐに「ゆるめる」を選び、糸が切れないように安全策を取る", 1],
+                ["「くいつき度」の減少量をチェックし、相手のランク（HP）と暴れ頻度を割り出す", 3],
+                ["とりあえず全力で「竿を引く」を連打して早く手元に引き寄せる", 0]
+            ]},
+            { cat: "暴れ予兆", text: "魚が激しく暴れて一気に距離を離そうとする「直前のモーション（予兆）」を見抜くための画面注視ポイントは？", choices: [
+                ["自分のキャラクターの汗マークが出るタイミング", 1],
+                ["魚のアイコンの挙動や、テンションバー・くいつき度の変動速度の急激な変化", 3],
+                ["コントローラーの振動が来たらすぐに手を離す", 0]
+            ]},
+            { cat: "ルアー選択", text: "イベント限定の「トゲトゲルアー」や「天使のルアー」など、特殊効果（会心率アップやダメージ軽減）の最適な使い分けは？", choices: [
+                ["初期から持っている普通のルアーで十分である", 0],
+                ["一番値段が高くて名前が強そうなルアーを常に選んでおく", 1],
+                ["ターゲットとなる魚の行動パターン（暴れやすさや重さ）に合わせて確率変動を計算して選ぶ", 3]
+            ]},
+            { cat: "距離管理", text: "魚との距離が残り「数メートル」の最終局面で、パニックになりやすいプレイヤーが犯す最大のミスは？", choices: [
+                ["焦って「竿を引く」を続け、魚の最後の暴れ（大暴れ）で一気に糸をブチ切られること", 3],
+                ["コマンド入力を一切やめて自動で引き寄せるのを待つこと", 0],
+                ["慎重になりすぎて「ゆるめる」を連発し、魚に距離を押し戻されること", 1]
+            ]},
+            { cat: "連続周回", text: "フィッシングコンテストで「最大サイズ（キングサイズ・金冠）」を効率よく狙うための、ガチ勢の周回ルーティンは？", choices: [
+                ["目の前に現れた魚はサイズに関係なくすべて釣り上げて図鑑を埋める", 1],
+                ["同じ場所にとどまらず、5分おきに釣り場を別のエリアに移動する", 0],
+                ["影のサイズが小さいものを即座にキャンセル（またはスルー）し、大物の影だけに絞ってエンカウントする", 3]
+            ]},
+            { cat: "会心管理", text: "「会心の一撃」が発号したとき、通常の数倍のダメージ（引き寄せ）が入る仕様を戦闘にどう活かす？", choices: [
+                ["会心が発生した瞬間を見逃さず、次のコマンドでさらに大ダメージを狙うためのテンションを維持する", 3],
+                ["会心が出たら一度竿を緩めて体制を立て直す", 0],
+                ["会心は完全なランダム発生なので、プレイヤー側でコントロールすることは不可能である", 1]
+            ]},
+            { cat: "場所選定", text: "イベント会場における「特定の釣り場（釣れる魚のレア度やサイズが偏るスポット）」の噂や検証に関する真実味は？", choices: [
+                ["どこで釣っても出現する魚の確率やサイズは完全に均一である", 0],
+                ["人のキャラクターがたくさん集まっている中央付近が一番釣れやすい", 0],
+                ["エリアごとに内部テーブルで出現する魚のサイズ分布が異なるため、確率の高いポイントに張り付く", 3]
+            ]},
+            { cat: "スタミナ疲労", text: "何時間にも及ぶ長時間の釣りイベントで、集中力の低下による「コマンド入力ミス」を防ぐための対策は？", choices: [
+                ["眠くなったらエナジードリンクを飲みながら気合で連打し続ける", 1],
+                ["テレビやYouTubeの動画を見ながら片手間で適当に操作する", 0],
+                ["リズムゲームのように一定のテンポでボタン入力を自動化し、無駄な焦りを排除する", 3]
+            ]},
+            { cat: "ボーナス時", text: "「大漁タイム」や「レア魚出現アップ」の恩恵を最大化するために、ガチ勢が事前に準備しておくべき準備とは？", choices: [
+                ["ルアーや竿のストックを限界まで買い込み、移動用ルーラストーンの位置を最適化しておく", 3],
+                ["フレンドをたくさん誘ってパーティを組んでから釣り始める", 1],
+                ["特になし。イベント告知が来たらその場から走って向かえばよい", 0]
+            ]},
+            { cat: "極み称号", text: "すべてのフィッシングコンテストを制覇し、最高峰の「釣りマスター・ヌシハンター」と呼ばれるプレイヤーの境地とは？", choices: [
+                ["運と気合いだけでひたすら何万匹も釣り続ける根性を見せること", 1],
+                ["ランキングの1位に名前が載るまで課金し続けること", 0],
+                ["運の要素を極限まで排除し、確率論と統計に基づいて理論値サイズをねじ伏せること", 3]
+            ]}
+        ]
+    },
+    minigame: {
+        name: "トラシュカ（ベクトル予測・判定ボックス編）",
+        questions: [
+            { cat: "落下予測", text: "トラシュカで無数のアイテムや爆弾が降ってくる中、上級者が自分のキャラクターの足元ではなく「画面全体のどこ」を見ているか？", choices: [
+                ["自分のキャラクターの頭のすぐ上にある危険物だけを注視する", 1],
+                ["上空から落下してくるオブジェクトの（影（着水点サークル））の位置と軌道ベクトルを常時俯瞰する", 3],
+                ["目の前に落ちてきた金箱や浮き輪だけに飛びつく", 0]
+            ]},
+            { cat: "判定ボックス", text: "爆弾やサメの爆風・攻撃判定の「当たり判定（判定ボックス）」の仕様を逆手に取った回避テクニックは？", choices: [
+                ["爆弾やサメの影が見えたら、画面の端っこまで全力で逃げる", 1],
+                ["いかだの中央でじっと動かずにアイテムが降ってくるのを待つ", 0],
+                ["見た目のエフェクトの端ではなく、内部の判定グリッドの隙間（安全マージン）をギリギリで抜ける", 3]
+            ]},
+            { cat: "浮き輪選択", text: "「ドーナツの浮き輪」「ピザの浮き輪」など、トラシュカにおける各浮き輪の特殊効果（移動速度・特殊耐性）の最適解は？", choices: [
+                ["一番見た目が面白かったり、レア度の高そうな浮き輪をつける", 1],
+                ["初期から持っている普通の丸い浮き輪のままで挑む", 0],
+                ["ステージのギミック（ゲソやサメの出現傾向）に合わせて、生存率とスコア効率が最大になるものを選択する", 3]
+            ]},
+            { cat: "お邪魔対応", text: "「おじゃま風船（移動速度低下や視界阻害）」を被弾した直後、パニックにならずに立て直すためのセオリーは？", choices: [
+                ["移動制限がかかった状態で無駄な方向キー入力をせず、最小限の歩行で安全地帯へスライドする", 3],
+                ["焦ってコントローラーのスティックを激しくガチャガチャ動かす", 0],
+                ["諦めて次のラウンドが始まるのを待つ", 0]
+            ]},
+            { cat: "いかだ端部", text: "いかだ（足場）の端っこギリギリに立つリスクと、中央に陣取るリスクの正しいリスクリターン計算は？", choices: [
+                ["端っこの方がアイテムを独り占めできるので常に外縁に張り付く", 1],
+                ["いかだの上ならどこに立っても安全性や確率は全く同じである", 0],
+                ["端は落下物で海に落とされるリスク（サメ等）が跳ね上がるため、基本は中央寄りで周囲を警戒する", 3]
+            ]},
+            { cat: "連続ギミック", text: "終盤の激しいラッシュ（爆弾の連続投下＋サメ＋金箱の同時出現）で、スコアを大きく伸ばすプレイヤーの判断基準は？", choices: [
+                ["パニックになってアイテムを拾うのを一切諦めて隅っこで丸くなる", 0],
+                ["どんなに危険でも金箱が見えたら命を投げ出して突っ込む", 1],
+                ["高得点（金箱）を欲張って被弾するリスクよりも、生存（ノーミスボーナス）を優先して確実に避ける", 3]
+            ]},
+            { cat: "特殊パネル", text: "「ジェット」や「無敵」などの特殊パネルが出現した際、それを回収してスコアに変換する瞬間の最適ルートは？", choices: [
+                ["パネルを見つけたら直線距離で最短で突っ込んで即座に回収する", 1],
+                ["周囲の落下物の軌道を計算し、パネルを取った後の移動先で二次被害に遭わないルートを瞬時に描く", 3],
+                ["変に動いて逆に被弾するのが怖いので、特殊パネルは無視する", 0]
+            ]},
+            { cat: "着水ラグ", text: "アイテムや爆弾が「実際にいかだに着地する瞬間（着水ラグ）」の判定を逆用したテクニックとは？", choices: [
+                ["着地する前にアイテムに触れておけば、空中でも強制的に回収できる", 0],
+                ["爆弾が落ちてきて爆発するまでのわずかな空白フレームを利用して、爆弾の真下を通り抜ける", 3],
+                ["アイテムが床でバウンドしている間は絶対に触れてはいけない", 0]
+            ]},
+            { cat: "メンタル管理", text: "一度海に落とされて（1デス）リスポーンした直後、焦ってミスを連発して全ロスする悪循環を防ぐためのメンタル制御は？", choices: [
+                ["「もうダメだ」と投げやりになって、ヤケクソで危険な場所に飛び込む", 0],
+                ["デスによるペナルティと残りのスコアを冷静に計算し、安全重視の堅実な立ち回りに即座に切り替える", 3],
+                ["運が悪かったと諦めてコントローラーを置く", 0]
+            ]},
+            { cat: "海の王者", text: "トラシュカのランキングで常に上位・満点付近を叩き出す「海の王者」たちの共通の身体的・精神的特徴とは？", choices: [
+                ["運が異常に良くて、毎回自分の周りに金箱ばかりが落ちてくる", 0],
+                ["動体視力と空間把握能力が極めて高く、画面内のすべての動きを完全に予測・制御できている", 3],
+                ["寝る間も惜しんで何千回も何万回もひたすら数撃ち当たれで周回している", 0]
+            ]}
+        ]
+    }
+};
 
-const labels={completion:"完成度",originality:"独創性",composition:"構成力",photo:"写真力",theme:"テーマ性"};
-let i=0,s={completion:0,originality:0,composition:0,photo:0,theme:0},overall=0;
+// ==========================================
+// 状態管理・エンジン
+// ==========================================
+let currentMode = 'housing';
+let currentIndex = 0;
+let userAnswers = [];
 
-function render(){
- const q=qs[i]; qnum.textContent=`QUESTION ${String(i+1).padStart(2,"0")} / 18`; cat.textContent=q[0]; question.textContent=q[1]; bar.style.width=(i/18*100)+"%"; choices.innerHTML="";
- q[2].forEach((x,n)=>{let b=document.createElement("button");b.className="choice";b.innerHTML=`<b>${["A","B","C","D"][n]}　${x[0]}</b><small>${q[3]==="overall"?"総合判定":labels[q[3]]+"に加点"}</small>`;b.onclick=()=>ans(x[1],q[3]);choices.appendChild(b)})
+function startQuiz(mode) {
+    currentMode = mode;
+    currentIndex = 0;
+    userAnswers = [];
+    renderQuestion();
+    showScreen('screen-quiz');
 }
-function ans(v,k){if(k==="overall")overall+=v;else s[k]+=v;i++;i<18?render():result()}
-function result(){
- quiz.classList.add("hidden");resultEl=document.getElementById("result");resultEl.classList.remove("hidden");
- const total=Object.values(s).reduce((a,b)=>a+b,0)+overall;
- const max=18*3;
- // 試作品用：中間50付近、上限96。各軸のバランスもわずかに評価。
- const avg=total/max;
- const vals=Object.values(s).map(v=>v/12);
- const balance=Math.max(0,1-(Math.max(...vals)-Math.min(...vals)));
- let p=Math.round(15+avg*70+balance*8);
- p=Math.max(8,Math.min(96,p));
- percent.innerHTML=p+"<span>%</span>";meter.style.width=p+"%";
- rank.textContent=p>=85?"S｜一次選考を強く意識できるレベル":p>=72?"A｜100選を狙える有力候補":p>=58?"B｜十分可能性あり、磨けば届く":p>=42?"C｜魅力はある。見せ方が鍵":p>=25?"D｜作品としての整理から":"E｜まずは核となるテーマ作りから";
- summary.innerHTML=Object.entries(s).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{let z=Math.round(v/12*100);return `<div class="score"><span>${labels[k]}</span><div class="track"><i style="width:${z}%"></i></div><b>${z}</b></div>`}).join("");
- const sorted=Object.entries(s).sort((a,b)=>b[1]-a[1]);const strong=sorted[0][0],weak=sorted[4][0];
- const tips={
- completion:"「足した量」より、不要な要素を削った後に残る完成度を意識すると強くなります。",
- originality:"流行の技法を使っても、最後に自分だけの解釈を一つ入れると作品性が上がります。",
- composition:"主役・脇役・背景・余白を整理し、一枚の画面として成立させることが重要です。",
- photo:"実物が良くても写真で伝わらなければ不利。応募用の一枚を作品として撮り下ろしましょう。",
- theme:"テーマ、タイトル、PR文を一本につなげると、初見でも作品の意図が伝わりやすくなります。"
- };
- insight.innerHTML=`<strong>最大の武器｜${labels[strong]}</strong><div class="advice">${tips[strong]}</div><br><strong>最大の課題｜${labels[weak]}</strong><div class="advice">${tips[weak]}</div><br><span class="tag">${labels[strong]}型</span><span class="tag">${p>=72?"一次選考圏":"伸びしろ大"}</span>`;
+
+function showScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-function restart(){i=0;s={completion:0,originality:0,composition:0,photo:0,theme:0};overall=0;document.getElementById("result").classList.add("hidden");quiz.classList.remove("hidden");render()}
-function copyResult(){let t=`DQ10 ハウジング100選・選抜率診断\\n私の100選選抜率は ${percent.innerText}\\n${rank.innerText}\\n#DQ10 #DQ10ハウジング`;navigator.clipboard?.writeText(t);alert("結果をコピーしました。")}
-render();
+
+function renderQuestion() {
+    const qList = QUESTION_DATA[currentMode].questions;
+    const q = qList[currentIndex];
+
+    const progressPercent = (currentIndex / qList.length) * 100;
+    document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+    document.getElementById('q-num').textContent = `Q${currentIndex + 1} / ${qList.length}`;
+    document.getElementById('q-cat').textContent = q.cat;
+    document.getElementById('q-title').textContent = q.text;
+
+    const choicesArea = document.getElementById('choices-area');
+    choicesArea.innerHTML = '';
+
+    q.choices.forEach((choice, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        const keyLetters = ['A', 'B', 'C'];
+        btn.innerHTML = `<b>${keyLetters[idx]}：${choice[0]}</b>`;
+        btn.onclick = () => selectAnswer(choice[1]);
+        choicesArea.appendChild(btn);
+    });
+
+    const prevBtn = document.getElementById('btn-prev');
+    if (currentIndex === 0) {
+        prevBtn.textContent = "ジャンル選定に戻る";
+        prevBtn.onclick = () => showScreen('screen-start');
+    } else {
+        prevBtn.textContent = "一つ戻る";
+        prevBtn.onclick = () => prevQuestion();
+    }
+}
+
+function selectAnswer(score) {
+    userAnswers[currentIndex] = score;
+    const qList = QUESTION_DATA[currentMode].questions;
+    
+    if (currentIndex < qList.length - 1) {
+        currentIndex++;
+        renderQuestion();
+    } else {
+        calculateResult();
+    }
+}
+
+function prevQuestion() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+    }
+}
+
+function calculateResult() {
+    const totalScore = userAnswers.reduce((a, b) => a + b, 0);
+    const maxScore = QUESTION_DATA[currentMode].questions.length * 3;
+    
+    let percentage = Math.round((totalScore / maxScore) * 75 + 20);
+    percentage = Math.min(98, Math.max(15, percentage));
+
+    const modeName = QUESTION_DATA[currentMode].name;
+    document.getElementById('res-mode-label').textContent = modeName.toUpperCase();
+
+    let rankText = "";
+    if (percentage >= 88) rankText = `S ｜ 熟練のガチ勢・トップランカー極みレベル！`;
+    else if (percentage >= 72) rankText = `A ｜ コンテスト上位・高得点を確実に狙える実力者！`;
+    else if (percentage >= 50) rankText = `B ｜ 知識の引き出しは豊富！細部の詰めが勝利の鍵`;
+    else rankText = `C ｜ 伸びしろの塊！マニアックな専門視点を吸収して大躍進しよう`;
+
+    document.getElementById('res-percent').innerHTML = `${percentage}<span>%</span>`;
+    document.getElementById('res-rank').textContent = rankText;
+
+    const breakdownArea = document.getElementById('score-breakdown');
+    breakdownArea.innerHTML = `
+        <div class="score-row"><span>専門知識</span><div class="score-track"><div class="score-fill" style="width: ${Math.min(100, percentage + 5)}%;"></div></div><span>${Math.min(100, percentage + 5)}%</span></div>
+        <div class="score-row"><span>実戦テク</span><div class="score-track"><div class="score-fill" style="width: ${percentage}%;"></div></div><span>${percentage}%</span></div>
+        <div class="score-row"><span>判断・分析力</span><div class="score-track"><div class="score-fill" style="width: ${Math.max(35, percentage - 10)}%;"></div></div><span>${Math.max(35, percentage - 10)}%</span></div>
+    `;
+
+    // ランクに応じた専用コメント（分岐の完全独立化）
+    let adviceText = "";
+    if (percentage >= 88) {
+        adviceText = `【Sランク・赤ペン先生】お見事です！正解の位置がランダムに散らばる中、一切惑わされずにこのスコアを叩き出すのは本物のトップランカー証拠。仕様の裏側やフレーム単位の調整まで完璧に体に染み込んでいますね。ぜひその知識を周りにも広げてください！`;
+    } else if (percentage >= 72) {
+        adviceText = `【Aランク・赤ペン先生】素晴らしい正答率です！コンテストの審査基準や実戦的なテクニックの要所をしっかりと抑えています。あと一歩で満点圏内なので、惜しかった問題の「仕様の意図」を振り返ってみるとさらに視野が広がりますよ！`;
+    } else if (percentage >= 50) {
+        adviceText = `【Bランク・赤ペン先生】なかなかの健闘です！基本的な知識やトレンドへのアンテナは張られています。ただ、細部の当たり判定やカメラのクリップ回避、フレーム単位の調整といった「一歩上のマニアックな視点」を取り入れると、さらに上のランクへいけます！`;
+    } else {
+        adviceText = `【Cランク・赤ペン先生】お疲れ様でした！今回は位置のランダム性もあり、かなり歯ごたえのある内容だったはずです。ここで出てきた専門用語やテクニックはどれもガチ勢の常識的な引き出しなので、今回の解説をヒントにぜひリベンジしてみてください！`;
+    }
+    
+    document.getElementById('res-advice').textContent = adviceText;
+
+    showScreen('screen-result');
+}
+
+function restart() {
+    currentIndex = 0;
+    userAnswers = [];
+    showScreen('screen-start');
+}
+
+function downloadResultImage() {
+    const targetCard = document.getElementById('result-card');
+    
+    html2canvas(targetCard, {
+        scale: 2,
+        backgroundColor: "#ffffff",
+        useCORS: true
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'dqx-maniax-diagnosis-result.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+}
 </script>
+
 </body>
 </html>
