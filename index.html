@@ -23,12 +23,12 @@
         }
 
         /* カテゴリごとのテーマカラー定義 */
-        body[data-theme="drea-princess"] {
+        body[data-theme="princess"] {
             --theme-color: #f06226; /* オレンジ */
             --theme-light: #fff4ec;
             --theme-hover: #d9531b;
         }
-        body[data-theme="drea-prince"] {
+        body[data-theme="prince"] {
             --theme-color: #2d68c4; /* ブルー */
             --theme-light: #f0f4fd;
             --theme-hover: #22519c;
@@ -262,7 +262,7 @@
         }
     </style>
 </head>
-<body data-theme="drea-princess">
+<body data-theme="princess">
 
     <div class="container">
         <!-- 1ページ目：タイトル＆3つのボタン -->
@@ -273,8 +273,8 @@
                 写真から伝わることの距離を診断します。
             </p>
             <div class="category-list">
-                <button class="category-btn btn-orange" onclick="selectCategory('drea-princess')">👗 ドレア (プリンセス)</button>
-                <button class="category-btn btn-blue" onclick="selectCategory('drea-prince')">👔 ドレア (プリンス)</button>
+                <button class="category-btn btn-orange" onclick="selectCategory('princess')">👑 プリンセス</button>
+                <button class="category-btn btn-blue" onclick="selectCategory('prince')">🤴 プリンス</button>
                 <button class="category-btn btn-yellow" onclick="selectCategory('housing')">🏠 ハウジング</button>
             </div>
         </div>
@@ -305,7 +305,7 @@
     </div>
 
 <script>
-let currentCategory = 'drea-princess';
+let currentCategory = 'princess';
 
 function selectCategory(category) {
     currentCategory = category;
@@ -321,15 +321,15 @@ function selectCategory(category) {
     titleInput.value = '';
     intentInput.value = '';
 
-    if (category === 'drea-princess') {
-        formHeading.innerText = '👗 ドレア (プリンセス) 作品情報の入力';
-        labelTitle.innerText = 'ドレア名 / テーマ';
+    if (category === 'princess') {
+        formHeading.innerText = '👑 プリンセス 作品情報の入力';
+        labelTitle.innerText = 'テーマ名';
         titleInput.placeholder = '例: 星空の魔法使い';
         labelIntent.innerText = 'スタイリングのこだわり・ストーリー';
         intentInput.placeholder = '例: 夜空をイメージした深い青とゴールドの調和';
-    } else if (category === 'drea-prince') {
-        formHeading.innerText = '👔 ドレア (プリンス) 作品情報の入力';
-        labelTitle.innerText = 'ドレア名 / テーマ';
+    } else if (category === 'prince') {
+        formHeading.innerText = '🤴 プリンス 作品情報の入力';
+        labelTitle.innerText = 'テーマ名';
         titleInput.placeholder = '例: 孤高の旅人';
         labelIntent.innerText = 'スタイリングのこだわり・ストーリー';
         intentInput.placeholder = '例: 重厚な鎧とマントの質感';
@@ -387,12 +387,12 @@ function generatePrompt() {
 3. 【GAPの分析】（意図と受け取り方のズレ、改善の余地を「GAP1」「GAP2」で掘り下げる）
 4. 【写真のクオリティをさらに高めるための改善アドバイス】（箇条書きで具体的に）`;
     } else {
-        const styleLabel = currentCategory === 'drea-prince' ? 'プリンススタイルの' : 'プリンセススタイルの';
+        const styleLabel = currentCategory === 'prince' ? 'プリンススタイルの' : 'プリンセススタイルの';
         prompt = `あなたはプロのファッション・写真作品の厳格な講評者であり、北欧絵本の世界観を取り入れた優れたUI/UXデザイナーです。
 添付された${styleLabel}写真作品を分析し、優れたポートレート写真に共通する評価軸（「ストーリー性とタイトルのシンクロ度」「シルエットとポージングの妙」「光・エフェクト・撮影環境による美術力」「独自の世界観の演出」）を基準にして厳格に診断を行ってください。
 
 【作品情報】
-・ドレア名 / テーマ: ${title}
+・テーマ名: ${title}
 ・スタイリングのこだわり（INTENT）: ${intent}
 
 【出力フォーマットおよび記述の厳守ルール】
