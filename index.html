@@ -3,264 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>この１枚、伝わってる？ - 創作・作品アドバイザー（完全版）</title>
+    <title>この１枚、伝わってる？</title>
+    <!-- ミッフィー風の丸みを帯びた温かみのあるフォント読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #fcf9f2;
             --card-bg: #ffffff;
-            --border-color: #e6dfd1;
-            --text-main: #3b271a;
-            --text-sub: #7a6552;
-            --primary: #f06226;
-            --primary-hover: #d9531b;
-            --accent-yellow: #e6a127;
-            --accent-blue: #2d68c4;
-            --tag-bg: #fff4ec;
+            --border-color: #f0e6d6;
+            --text-main: #2b1d14;
+            --text-sub: #7a6350;
+            
+            /* 初期テーマカラー（オレンジ） */
+            --theme-color: #f06226;
+            --theme-light: #fff3ec;
+            --theme-hover: #d9531b;
+        }
+
+        /* カテゴリごとのテーマカラー定義 */
+        body[data-theme="drea-princess"] {
+            --theme-color: #f06226; /* オレンジ */
+            --theme-light: #fff4ec;
+            --theme-hover: #d9531b;
+        }
+        body[data-theme="drea-prince"] {
+            --theme-color: #2d68c4; /* ブルー */
+            --theme-light: #f0f4fd;
+            --theme-hover: #22519c;
+        }
+        body[data-theme="housing"] {
+            --theme-color: #e6a127; /* イエロー */
+            --theme-light: #fef8ec;
+            --theme-hover: #cc8c1f;
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Zen Maru Gothic', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
             margin: 0;
-            padding: 30px 16px;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
         }
 
         .container {
             width: 100%;
-            max-width: 640px;
+            max-width: 520px;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .header h1 {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary);
-            margin: 0 0 6px 0;
-            letter-spacing: 0.03em;
-        }
-
-        .header p {
-            font-size: 12.5px;
-            color: var(--text-sub);
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            padding: 22px;
-            border-radius: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 20px rgba(59, 39, 26, 0.04);
-        }
-
-        .card h3 {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 0 0 12px 0;
-            display: flex;
+        /* ページ切り替え用スタイル */
+        .page {
+            display: none;
+            flex-direction: column;
             align-items: center;
-            gap: 6px;
+            width: 100%;
+            animation: fadeIn 0.3s ease;
         }
 
-        .mode-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 18px;
+        .page.active {
+            display: flex;
         }
 
-        .mode-btn {
-            background: #faf7f0;
-            border: 2px solid var(--border-color);
-            padding: 10px 4px;
-            border-radius: 10px;
-            font-size: 12.5px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 1ページ目デザイン --- */
+        .hero-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--text-main);
+            text-align: center;
+            margin: 0 0 16px 0;
+            letter-spacing: 0.03em;
+            white-space: nowrap; /* 改行なし */
+        }
+
+        .lead-text {
+            font-size: 15px;
             font-weight: 700;
             color: var(--text-sub);
+            text-align: center;
+            line-height: 1.8;
+            margin-bottom: 36px;
+        }
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+        }
+
+        /* ボタン個別のミッフィー配色 */
+        .category-btn {
+            border: 2.5px solid var(--border-color);
+            padding: 20px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
+            box-shadow: 0 4px 16px rgba(74, 53, 37, 0.03);
+            font-family: 'Zen Maru Gothic', sans-serif;
         }
 
-        .mode-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+        .category-btn.btn-orange {
+            background-color: #f06226;
+            color: #2b1d14;
+            border-color: #d9531b;
+        }
+        .category-btn.btn-blue {
+            background-color: #2d68c4;
+            color: #2b1d14;
+            border-color: #22519c;
+        }
+        .category-btn.btn-yellow {
+            background-color: #e6a127;
+            color: #2b1d14;
+            border-color: #cc8c1f;
         }
 
-        .mode-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-            box-shadow: 0 3px 10px rgba(240, 98, 38, 0.3);
+        .category-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* --- 2ページ目デザイン --- */
+        .back-link {
+            align-self: flex-start;
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--theme-color);
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            border: 2.5px solid var(--border-color);
+            padding: 28px;
+            border-radius: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 6px 24px rgba(74, 53, 37, 0.04);
+            margin-bottom: 20px;
+        }
+
+        .form-card h2 {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--theme-color);
+            margin: 0 0 20px 0;
+            transition: color 0.3s ease;
         }
 
         label {
             display: block;
-            font-size: 11.5px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-sub);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         input, textarea {
             width: 100%;
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 14px 16px;
+            border-radius: 12px;
             border: 2px solid var(--border-color);
-            background: #faf7f0;
+            background: var(--theme-light);
             color: var(--text-main);
             box-sizing: border-box;
-            font-size: 13.5px;
+            font-size: 14px;
+            font-family: 'Zen Maru Gothic', sans-serif;
             transition: all 0.2s ease;
-            margin-bottom: 14px;
+            margin-bottom: 20px;
         }
 
         input:focus, textarea:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--theme-color);
             background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(240, 98, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
         }
 
         textarea {
             resize: vertical;
-            min-height: 70px;
+            min-height: 90px;
         }
 
         .action-btn {
             width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
+            background: var(--theme-color);
+            color: var(--text-main);
+            border: 2px solid rgba(0,0,0,0.1);
+            font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 700;
-            font-size: 14.5px;
-            padding: 14px;
-            border-radius: 12px;
+            font-size: 16px;
+            padding: 16px;
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(240, 98, 38, 0.3);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .action-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(240, 98, 38, 0.4);
+            background: var(--theme-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
         }
 
         .result-box {
             white-space: pre-wrap;
-            background: #faf7f0;
-            padding: 14px;
-            border-radius: 10px;
+            background: var(--theme-light);
+            padding: 16px;
+            border-radius: 12px;
             border: 2px solid var(--border-color);
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 11.5px;
+            font-size: 12px;
             color: var(--text-main);
-            line-height: 1.5;
-            max-height: 220px;
+            line-height: 1.6;
+            max-height: 200px;
             overflow-y: auto;
+            margin-top: 16px;
         }
 
         .copy-hint {
-            font-size: 11.5px;
+            font-size: 12px;
             color: var(--text-sub);
             margin-bottom: 8px;
-            font-weight: 600;
+            font-weight: 700;
         }
     </style>
 </head>
-<body>
+<body data-theme="drea-princess">
 
     <div class="container">
-        <div class="header">
-            <h1>📷 この１枚、伝わってる？</h1>
-            <p>作品情報を入力してプロンプトを生成。無料AIに写真と一緒に入力すると、スマホや印刷で1枚にすっきり収まるおしゃれな診断レポートを出力させられます。</p>
+        <!-- 1ページ目：タイトル＆3つのボタン -->
+        <div class="page active" id="page1">
+            <h1 class="hero-title">この１枚、伝わってる？</h1>
+            <p class="lead-text">
+                あなたが表現したかったことと、<br>
+                写真から伝わることの距離を診断します。
+            </p>
+            <div class="category-list">
+                <button class="category-btn btn-orange" onclick="selectCategory('drea-princess')">👗 ドレア (プリンセス)</button>
+                <button class="category-btn btn-blue" onclick="selectCategory('drea-prince')">👔 ドレア (プリンス)</button>
+                <button class="category-btn btn-yellow" onclick="selectCategory('housing')">🏠 ハウジング</button>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>🎯 1. 部門・スタイルを選択</h3>
-            <div class="mode-selector">
-                <button type="button" class="mode-btn" id="btn-drea-men" onclick="setMode('drea-men')">👔 ドレア<br><span style="font-size:9.5px; font-weight:normal;">(Men)</span></button>
-                <button type="button" class="mode-btn active" id="btn-drea-women" onclick="setMode('drea-women')">👗 ドレア<br><span style="font-size:9.5px; font-weight:normal;">(Women)</span></button>
-                <button type="button" class="mode-btn" id="btn-housing" onclick="setMode('housing')">🏠 ハウジング</button>
+        <!-- 2ページ目：作品情報の入力画面 -->
+        <div class="page" id="page2">
+            <button class="back-link" onclick="goToPage1()">← 戻る</button>
+            
+            <div class="form-card">
+                <h2 id="formHeading">🌷 作品情報の入力</h2>
+                
+                <label id="labelTitle">作品名 / テーマ名</label>
+                <input type="text" id="title" placeholder="例: 星空の魔法使い">
+
+                <label id="labelIntent">込められたこだわり・ストーリー</label>
+                <textarea id="intent" placeholder="例: 夜空をイメージした深い青とゴールドの調和"></textarea>
+
+                <button class="action-btn" onclick="generatePrompt()">
+                    <span>プロンプトを生成してコピー ✏️</span>
+                </button>
             </div>
 
-            <h3 id="form-title-label">🌷 作品情報の入力</h3>
-            
-            <label id="label-title">作品名 / テーマ名</label>
-            <input type="text" id="title" placeholder="例: 星空の魔法使い">
-
-            <label id="label-intent">込められたこだわり・ストーリー（INTENT）</label>
-            <textarea id="intent" rows="3" placeholder="例: 夜空をイメージした深い青と、ゴールドの装飾の調和"></textarea>
-        </div>
-
-        <button class="action-btn" onclick="generatePrompt()">
-            <span>AI用プロンプトを生成してコピーする ✏️</span>
-        </button>
-
-        <div class="card" id="resultCard" style="display:none; margin-top: 16px;">
-            <h3>🧺 生成されたプロンプト</h3>
-            <p class="copy-hint">✨ コピー完了！診断させたいSS（スクリーンショット）と一緒に、AIのチャット画面にそのまま貼り付けて送信してください。</p>
-            <div class="result-box" id="resultOutput"></div>
+            <div class="form-card" id="resultCard" style="display:none;">
+                <p class="copy-hint">✨ コピー完了！SSと一緒にAIへ送信してください</p>
+                <div class="result-box" id="resultOutput"></div>
+            </div>
         </div>
     </div>
 
 <script>
-let currentMode = 'drea-women';
+let currentCategory = 'drea-princess';
 
-function setMode(mode) {
-    currentMode = mode;
-    const btnDreaMen = document.getElementById('btn-drea-men');
-    const btnDreaWomen = document.getElementById('btn-drea-women');
-    const btnHousing = document.getElementById('btn-housing');
-    const formTitleLabel = document.getElementById('form-title-label');
-    const labelTitle = document.getElementById('label-title');
-    const labelIntent = document.getElementById('label-intent');
+function selectCategory(category) {
+    currentCategory = category;
+    document.body.setAttribute('data-theme', category);
+    
+    const formHeading = document.getElementById('formHeading');
+    const labelTitle = document.getElementById('labelTitle');
+    const labelIntent = document.getElementById('labelIntent');
     const titleInput = document.getElementById('title');
     const intentInput = document.getElementById('intent');
 
-    btnDreaMen.classList.remove('active');
-    btnDreaWomen.classList.remove('active');
-    btnHousing.classList.remove('active');
+    document.getElementById('resultCard').style.display = 'none';
+    titleInput.value = '';
+    intentInput.value = '';
 
-    if (mode === 'drea-men') {
-        btnDreaMen.classList.add('active');
-        formTitleLabel.innerText = '🎀 ドレア (Men) 作品情報の入力';
-        labelTitle.innerText = 'ドレア名 / テーマ';
-        titleInput.placeholder = '例: 孤高の旅人';
-        labelIntent.innerText = 'スタイリングのこだわり・ストーリー（INTENT）';
-        intentInput.placeholder = '例: 重厚な鎧とマントの質感、男性らしいシルエットの追求';
-    } else if (mode === 'drea-women') {
-        btnDreaWomen.classList.add('active');
-        formTitleLabel.innerText = '🎀 ドレア (Women) 作品情報の入力';
+    if (category === 'drea-princess') {
+        formHeading.innerText = '👗 ドレア (プリンセス) 作品情報の入力';
         labelTitle.innerText = 'ドレア名 / テーマ';
         titleInput.placeholder = '例: 星空の魔法使い';
-        labelIntent.innerText = 'スタイリングのこだわり・ストーリー（INTENT）';
-        intentInput.placeholder = '例: 夜空をイメージした深い青と、ゴールドの装飾の調和';
+        labelIntent.innerText = 'スタイリングのこだわり・ストーリー';
+        intentInput.placeholder = '例: 夜空をイメージした深い青とゴールドの調和';
+    } else if (category === 'drea-prince') {
+        formHeading.innerText = '👔 ドレア (プリンス) 作品情報の入力';
+        labelTitle.innerText = 'ドレア名 / テーマ';
+        titleInput.placeholder = '例: 孤高の旅人';
+        labelIntent.innerText = 'スタイリングのこだわり・ストーリー';
+        intentInput.placeholder = '例: 重厚な鎧とマントの質感';
     } else {
-        btnHousing.classList.add('active');
-        formTitleLabel.innerText = '🌷 ハウジング作品情報の入力';
+        formHeading.innerText = '🏠 ハウジング作品情報の入力';
         labelTitle.innerText = '作品タイトル';
         titleInput.placeholder = '例: 地中美術館';
-        labelIntent.innerText = '伝えたいコンセプト・意図（INTENT）';
+        labelIntent.innerText = '伝えたいコンセプト・意図';
         intentInput.placeholder = '例: ホワイトキューブ空間に展示された巨大な絵画';
     }
+
+    document.getElementById('page1').classList.remove('active');
+    document.getElementById('page2').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToPage1() {
+    document.getElementById('page2').classList.remove('active');
+    document.getElementById('page1').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function generatePrompt() {
@@ -269,9 +358,9 @@ function generatePrompt() {
     const resultCard = document.getElementById('resultCard');
     const resultOutput = document.getElementById('resultOutput');
 
-    if (!title || !intent) { 
-        alert('タイトルとこだわりを入力してください'); 
-        return; 
+    if (!title || !intent) {
+        alert('タイトルとこだわりを入力してください');
+        return;
     }
 
     resultCard.style.display = 'block';
@@ -279,7 +368,7 @@ function generatePrompt() {
 
     let prompt = '';
 
-    if (currentMode === 'housing') {
+    if (currentCategory === 'housing') {
         prompt = `あなたはプロの空間デザイン・写真作品の厳格な講評者であり、北欧絵本の世界観を取り入れた優れたUI/UXデザイナーです。
 添付された空間デザインの写真を分析し、優れた空間写真に共通する評価軸（「主題がひと目で伝わる構図と視線誘導」「光と影による空気感・ライティング演出」「情報量のコントロールと抜け感」「タイトルとのシナジー・物語の気配」）を基準にして厳しく診断を行ってください。
 
@@ -288,34 +377,34 @@ function generatePrompt() {
 ・作者が伝えたい意図（INTENT）: ${intent}
 
 【出力フォーマットおよび記述の厳守ルール】
-1. **テキスト出力による完結**: 画像ファイル（HTML/PDFレンダリング等）の自動生成やコード出力は行えず、すべてスマホの画面1枚（スクロール最小限）ですっきりと読める、美しく整形されたテキスト（Markdown）で診断レポートを出力してください。
-2. **最上部のビジュアル表現**: レポートの冒頭に、添付された作品のスクリーンショット（またはイメージ）が存在することを想定した見出し「【対象作品ビジュアル】${title}」を配置してください。
+1. **テキスト出力による完結**: スマホの画面1枚（スクロール最小限）ですっきりと読める、美しく整形されたテキスト（Markdown）で診断レポートを出力してください。
+2. **最上部のビジュアル表現**: レポートの冒頭に、添付された作品のスクリーンショットが存在することを想定した見出し「【対象作品ビジュアル】${title}」を配置してください。
 3. **カラー・トーンの演出**: 北欧絵本（ミッフィー風）の温かみのある世界観をイメージさせ、要所に適切な絵文字やシンプルな見出しを用いて視覚的に洗練されたレイアウトにしてください。
 
-以下の4つの項目を、漏れなく詳細かつ具体的に盛り込んでください：
+以下の4つの項目を盛り込んでください：
 1. 【伝達力スコア】（100点満点中の点数と一言評価の要約）
 2. 【写真から実際に伝わった要素】（構図、ライティング、空間密度、世界観の一貫性を5段階評価で表現）
-3. 【GAPの分析】（意図と受け取り方のズレ、改善の余地を「GAP1」「GAP2」などで簡潔に掘り下げる）
-4. 【写真のクオリティをさらに高めるための改善アドバイス】（パースの活かし方、光のコントラスト調整、細部の演出などプロのテクニックを箇条書きで）`;
+3. 【GAPの分析】（意図と受け取り方のズレ、改善の余地を「GAP1」「GAP2」で掘り下げる）
+4. 【写真のクオリティをさらに高めるための改善アドバイス】（箇条書きで具体的に）`;
     } else {
-        const genderLabel = currentMode === 'drea-men' ? '男性モデルのスタイリング' : '女性モデルのスタイリング';
+        const styleLabel = currentCategory === 'drea-prince' ? 'プリンススタイルの' : 'プリンセススタイルの';
         prompt = `あなたはプロのファッション・写真作品の厳格な講評者であり、北欧絵本の世界観を取り入れた優れたUI/UXデザイナーです。
-添付された${genderLabel}の写真作品を分析し、優れたポートレート写真に共通する評価軸（「一言で物語が脳内再生されるストーリー性とタイトルのシンクロ度」「モデルの個性を活かしたシルエットとポージングの妙」「光・エフェクト・撮影環境による美術力」「独自の世界観の演出」）を基準にして厳格に診断を行ってください。
+添付された${styleLabel}写真作品を分析し、優れたポートレート写真に共通する評価軸（「ストーリー性とタイトルのシンクロ度」「シルエットとポージングの妙」「光・エフェクト・撮影環境による美術力」「独自の世界観の演出」）を基準にして厳格に診断を行ってください。
 
 【作品情報】
 ・ドレア名 / テーマ: ${title}
 ・スタイリングのこだわり（INTENT）: ${intent}
 
 【出力フォーマットおよび記述の厳守ルール】
-1. **テキスト出力による完結**: 画像ファイル（HTML/PDFレンダリング等）の自動生成やコード出力は行えず、すべてスマホの画面1枚（スクロール最小限）ですっきりと読める、美しく整形されたテキスト（Markdown）で診断レポートを出力してください。
+1. **テキスト出力による完結**: スマホの画面1枚（スクロール最小限）ですっきりと読める、美しく整形されたテキスト（Markdown）で診断レポートを出力してください。
 2. **最上部のビジュアル表現**: レポートの冒頭に、添付された作品のスクリーンショットが存在することを想定した見出し「【対象作品ビジュアル】${title}」を配置してください。
 3. **カラー・トーンの演出**: 北欧絵本（ミッフィー風）の温かみのある世界観をイメージさせ、要所に適切な絵文字やシンプルな見出しを用いて視覚的に洗練されたレイアウトにしてください。
 
-以下の4つの項目を、漏れなく詳細かつ具体的に盛り込んでください：
+以下の4つの項目を盛り込んでください：
 1. 【訴求力スコア】（100点満点中の点数と一言評価の要約）
 2. 【写真から実際に伝わった要素】（ストーリー性、被写体の活かし方、カラーバランス、世界観の演出を5段階評価で表現）
-3. 【GAPの分析】（意図と受け取り方のズレ、惜しいポイントを「GAP1」「GAP2」などで簡潔に掘り下げる）
-4. 【写真をより魅力的に仕上げるための改善アドバイス】（撮影アングル、しぐさの瞬間、背景の活用、タイトルのブラッシュアップ案などを具体的に箇条書きで）`;
+3. 【GAPの分析】（意図と受け取り方のズレ、惜しいポイントを「GAP1」「GAP2」で掘り下げる）
+4. 【写真をより魅力的に仕上げるための改善アドバイス】（箇条書きで具体的に）`;
     }
 
     resultOutput.innerText = prompt;
@@ -324,10 +413,8 @@ function generatePrompt() {
         const btn = document.querySelector('.action-btn');
         const originalText = btn.innerHTML;
         btn.innerHTML = '<span>Copied! コピー完了しました 🎈</span>';
-        btn.style.background = '#2d68c4';
         setTimeout(() => {
             btn.innerHTML = originalText;
-            btn.style.background = '';
         }, 2000);
     }).catch(err => {
         console.error('コピーに失敗しました', err);
